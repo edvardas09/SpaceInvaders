@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dd0ef66b0b6bdcb47bcbe28157729006
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PlayerPrefab: {instanceID: 0}
+  - ScoreText: {instanceID: 0}
+  - PlayerLivesText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
