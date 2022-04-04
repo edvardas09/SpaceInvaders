@@ -51,8 +51,13 @@ MonoBehaviour:
   EnemyType: 1
   Projectile: {fileID: 4316486629796154030, guid: 960acd815b4d6f344952c337d2133d60, type: 3}
   Rocket: {fileID: 104763457078041269, guid: d7712a61bb95d2349959820dc60a7597, type: 3}
-  ProjectileFrequency: 1
-  RocketFrequency: 3
+  ProjectileMinTime: 1
+  ProjectileMaxTime: 3
+  RocketMinTime: 3
+  RocketMaxTime: 5
+  Speed: 40
+  Path: []
+  LineController: {fileID: 0}
 --- !u!114 &6053393385308994705
 MonoBehaviour:
   m_ObjectHideFlags: 0

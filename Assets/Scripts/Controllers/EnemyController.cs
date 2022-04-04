@@ -12,7 +12,20 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Enemy's rocket prefab")]
     public GameObject Rocket;
 
-    [HideInInspector] 
+    [Tooltip("Minimum time to pass before shooting projectile")]
+    public float ProjectileMinTime = 1f;
+    [Tooltip("Maximum time to pass before shooting projectile")]
+    public float ProjectileMaxTime = 3f;
+
+    [Tooltip("Minimum time to pass before shooting rocket")]
+    public float RocketMinTime = 3f;
+    [Tooltip("Maximum time to pass before shooting rocket")]
+    public float RocketMaxTime = 5f;
+
+    [Tooltip("Movement speed when spawned")]
+    public float Speed = 40;
+
+    [HideInInspector]
     public Transform[] Path;
 
     [HideInInspector] 
@@ -20,7 +33,6 @@ public class EnemyController : MonoBehaviour
 
     private Health health;
     private Transform front;
-    private float speed = 40;
     private float currentPathPercent;
     private Vector3[] pathPositions;
     private bool movingIsActive;
@@ -49,7 +61,7 @@ public class EnemyController : MonoBehaviour
     {
         if (movingIsActive)
         {
-            currentPathPercent += speed / 100 * Time.deltaTime;
+            currentPathPercent += Speed / 100 * Time.deltaTime;
 
             transform.position = NewPositionByPath(pathPositions, currentPathPercent);
             transform.right = Interpolate(CreatePoints(pathPositions), currentPathPercent + 0.01f) - transform.position;
@@ -60,11 +72,11 @@ public class EnemyController : MonoBehaviour
                 switch (EnemyType)
                 {
                     case EnemyType.Simple:
-                        Invoke(nameof(Shooting), UnityEngine.Random.Range(1f, 3f));
+                        Invoke(nameof(Shooting), UnityEngine.Random.Range(ProjectileMinTime, ProjectileMaxTime));
                         break;
                     case EnemyType.Advanced:
-                        Invoke(nameof(Shooting), UnityEngine.Random.Range(1f, 3f));
-                        Invoke(nameof(LaunchRocket), UnityEngine.Random.Range(3f, 5f));
+                        Invoke(nameof(Shooting), UnityEngine.Random.Range(ProjectileMinTime, ProjectileMaxTime));
+                        Invoke(nameof(LaunchRocket), UnityEngine.Random.Range(RocketMinTime, RocketMaxTime));
                         break;
                 }
             }
@@ -82,13 +94,13 @@ public class EnemyController : MonoBehaviour
     private void Shooting()
     {
         Instantiate(Projectile, front.transform.position, Projectile.transform.rotation);
-        Invoke(nameof(Shooting), UnityEngine.Random.Range(1f, 3f));
+        Invoke(nameof(Shooting), UnityEngine.Random.Range(ProjectileMinTime, ProjectileMaxTime));
     }
 
     private void LaunchRocket()
     {
         Instantiate(Rocket, front.transform.position, Rocket.transform.rotation);
-        Invoke(nameof(LaunchRocket), UnityEngine.Random.Range(3f, 5f));
+        Invoke(nameof(LaunchRocket), UnityEngine.Random.Range(RocketMinTime, RocketMaxTime));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -108,12 +120,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    Vector3 NewPositionByPath(Vector3[] pathPos, float percent)
+    private Vector3 NewPositionByPath(Vector3[] pathPos, float percent)
     {
         return Interpolate(CreatePoints(pathPos), currentPathPercent);
     }
 
-    Vector3 Interpolate(Vector3[] path, float t)
+    private Vector3 Interpolate(Vector3[] path, float t)
     {
         int numSections = path.Length - 3;
         int currPt = Mathf.Min(Mathf.FloorToInt(t * numSections), numSections - 1);
@@ -125,7 +137,7 @@ public class EnemyController : MonoBehaviour
         return 0.5f * ((-a + 3f * b - 3f * c + d) * (u * u * u) + (2f * a - 5f * b + 4f * c - d) * (u * u) + (-a + c) * u + 2f * b);
     }
 
-    Vector3[] CreatePoints(Vector3[] path)
+    private Vector3[] CreatePoints(Vector3[] path)
     {
         Vector3[] pathPositions;
         Vector3[] newPathPos;

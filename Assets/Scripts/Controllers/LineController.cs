@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class LineController : MonoBehaviour
 {
+    [Tooltip("Minimum time to pass before spawning line")]
+    public float SpawnDelayMinTime = 1f;
+    [Tooltip("Maximum time to pass before spawning line")]
+    public float SpawnDelayMaxTime = 3f;
+
+    [Range(1, 7)]
+    [Tooltip("Minimum amount of enemies")]
+    public int MinEnemyCount = 3;
+    [Range(1, 7)]
+    [Tooltip("Maximum amount of enemies")]
+    public int MaxEnemyCount = 7;
+
+    [Range(0, 100)]
+    [Tooltip("Chance for advanced enemy to spawn")]
+    public int ChanceForAdvancedEnemySpawn = 20;
+
     public GameObject SimpleEnemy;
     public GameObject AdvancedEnemy;
     public Transform[] PathPoints;
-    public bool isFromRightSide;
 
     private int enemiesCount;
     private Vector3 initialLastPointPosition;
@@ -30,17 +45,15 @@ public class LineController : MonoBehaviour
     private IEnumerator SpawnLine()
     {
         PathPoints.Last().transform.position = initialLastPointPosition;
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        yield return new WaitForSeconds(Random.Range(SpawnDelayMinTime, SpawnDelayMaxTime));
 
-        PathPoints.Last().transform.position = isFromRightSide ?
-            PathPoints.Last().transform.position + new Vector3(Random.Range(0f, 15f), 0, 0) :
-            PathPoints.Last().transform.position - new Vector3(Random.Range(0f, 15f), 0, 0);
+        PathPoints.Last().transform.position = PathPoints.Last().transform.position - new Vector3(Random.Range(0f, 15f), 0, 0);
 
-        var enemiesSpawnCount = Random.Range(3, 7);
+        var enemiesSpawnCount = Random.Range(MinEnemyCount, MaxEnemyCount);
         enemiesCount = enemiesSpawnCount;
         for (int i = 0; i < enemiesSpawnCount; i++)
         {
-            if (Random.value > 0.2)
+            if (Random.value > ChanceForAdvancedEnemySpawn / 100)
             {
                 SpawnEnemy(SimpleEnemy);
             }
@@ -58,9 +71,7 @@ public class LineController : MonoBehaviour
         newEnemy = Instantiate(enemy, enemy.transform.position, Quaternion.identity);
         var enemyController = newEnemy.GetComponent<EnemyController>();
 
-        PathPoints.Last().transform.position = isFromRightSide ?
-            PathPoints.Last().transform.position + new Vector3(2, 0, 0) :
-            PathPoints.Last().transform.position - new Vector3(2, 0, 0);
+        PathPoints.Last().transform.position = PathPoints.Last().transform.position - new Vector3(2, 0, 0);
 
         enemyController.Path = PathPoints;
         enemyController.LineController = this;

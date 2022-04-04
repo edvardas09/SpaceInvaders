@@ -76,6 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e660e5f539caac44a329e447699aa1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnDelayMinTime: 1
+  SpawnDelayMaxTime: 3
+  MinEnemyCount: 3
+  MaxEnemyCount: 7
+  ChanceForAdvancedEnemySpawn: 20
   SimpleEnemy: {fileID: 2409390982280256272, guid: 3ee2fc3ceff04464e97be19b3b144fda, type: 3}
   AdvancedEnemy: {fileID: 6053393385308994699, guid: ae47e0cb17b15fa4d9e929d10c3c46eb, type: 3}
   PathPoints:

@@ -661,6 +661,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Line2
       objectReference: {fileID: 0}
+    - target: {fileID: 1635143331501636539, guid: fb87d35220ca21a48a3af4ff27223998, type: 3}
+      propertyPath: isFromRightSide
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb87d35220ca21a48a3af4ff27223998, type: 3}
 --- !u!1001 &5649776078784119460
